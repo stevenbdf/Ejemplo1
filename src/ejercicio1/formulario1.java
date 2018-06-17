@@ -23,6 +23,19 @@ public class formulario1 extends javax.swing.JFrame {
         ImageIcon foto = new ImageIcon (getClass().getResource("/imagenes/agregar.png"));
         ImageIcon icono = new ImageIcon(foto.getImage().getScaledInstance(agregar.getWidth(),agregar.getHeight(),Image.SCALE_DEFAULT));
         agregar.setIcon(icono);
+        
+        ImageIcon foto1 = new ImageIcon (getClass().getResource("/imagenes/modificar.png"));
+        ImageIcon icono1 = new ImageIcon(foto1.getImage().getScaledInstance(modificar.getWidth(),modificar.getHeight(),Image.SCALE_DEFAULT));
+        modificar.setIcon(icono1);
+        
+        ImageIcon foto2 = new ImageIcon (getClass().getResource("/imagenes/eliminar.png"));
+        ImageIcon icono2 = new ImageIcon(foto2.getImage().getScaledInstance(eliminar.getWidth(),eliminar.getHeight(),Image.SCALE_DEFAULT));
+        eliminar.setIcon(icono2);
+        
+        ImageIcon foto3 = new ImageIcon (getClass().getResource("/imagenes/guardar.png"));
+        ImageIcon icono3 = new ImageIcon(foto3.getImage().getScaledInstance(guardar.getWidth(),guardar.getHeight(),Image.SCALE_DEFAULT));
+        guardar.setIcon(icono3);
+        
     }
 
     /**
@@ -49,7 +62,12 @@ public class formulario1 extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
+        guardar = new javax.swing.JLabel();
         agregar = new javax.swing.JLabel();
+        modificar = new javax.swing.JLabel();
+        eliminar = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -106,8 +124,40 @@ public class formulario1 extends javax.swing.JFrame {
         jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 150, 100, 30));
         jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 100, 30));
 
+        guardar.setText("Button1");
+        jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 200, 50, 50));
+
         agregar.setText("Button1");
-        jPanel1.add(agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 50, 50));
+        jPanel1.add(agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 50, 50));
+
+        modificar.setText("Button1");
+        jPanel1.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 50, 50));
+
+        eliminar.setText("Button1");
+        jPanel1.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 200, 50, 50));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Nombre", "Año", "Costo"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, 530, 200));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,6 +210,8 @@ public class formulario1 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel agregar;
+    private javax.swing.JLabel eliminar;
+    private javax.swing.JLabel guardar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -169,11 +221,14 @@ public class formulario1 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JLabel modificar;
     // End of variables declaration//GEN-END:variables
 }
