@@ -125,17 +125,38 @@ public class formulario1 extends javax.swing.JFrame {
         jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 100, 30));
 
         guardar.setText("Button1");
+        guardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                guardarMouseClicked(evt);
+            }
+        });
         jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 200, 50, 50));
 
         agregar.setText("Button1");
+        agregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                agregarMouseClicked(evt);
+            }
+        });
         jPanel1.add(agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 50, 50));
 
         modificar.setText("Button1");
+        modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                modificarMouseClicked(evt);
+            }
+        });
         jPanel1.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 50, 50));
 
         eliminar.setText("Button1");
+        eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                eliminarMouseClicked(evt);
+            }
+        });
         jPanel1.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 200, 50, 50));
 
+        jTable2.setBackground(new java.awt.Color(204, 255, 255));
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -155,6 +176,8 @@ public class formulario1 extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable2.setGridColor(new java.awt.Color(102, 102, 102));
+        jTable2.setSelectionForeground(new java.awt.Color(13, 51, 62));
         jScrollPane2.setViewportView(jTable2);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, 530, 200));
@@ -172,6 +195,22 @@ public class formulario1 extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_agregarMouseClicked
+
+    private void modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_modificarMouseClicked
+
+    private void eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eliminarMouseClicked
+
+    private void guardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guardarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_guardarMouseClicked
 
     /**
      * @param args the command line arguments
