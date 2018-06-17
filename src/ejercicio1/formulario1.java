@@ -42,6 +42,7 @@ public class formulario1 extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
+        btn1 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -97,6 +98,9 @@ public class formulario1 extends javax.swing.JFrame {
         jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 150, 100, 30));
         jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 100, 30));
 
+        btn1.setText("Button1");
+        jPanel1.add(btn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, -1, 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -147,6 +151,7 @@ public class formulario1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btn1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
