@@ -262,7 +262,7 @@ public class formulario1 extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         apellido = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboGenero = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
         correo = new javax.swing.JTextField();
         foto = new javax.swing.JLabel();
@@ -491,8 +491,8 @@ public class formulario1 extends javax.swing.JFrame {
         jLabel12.setText("Apellido:");
         jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 30));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
-        jPanel5.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 100, 30));
+        comboGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
+        jPanel5.add(comboGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 100, 30));
 
         jLabel13.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
         jLabel13.setText("Foto:");
@@ -826,19 +826,181 @@ public class formulario1 extends javax.swing.JFrame {
     }//GEN-LAST:event_actualizar2MouseClicked
 
     private void agregar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregar2MouseClicked
-        // TODO add your handling code here:
+        
+            // TODO add your handling code here:
+            
+            MtoProyectos objeto = new MtoProyectos();
+            objeto.setCarnet(Integer.parseInt(codigo2.getText()));
+            objeto.setNombreI(nombre2.getText());
+            objeto.setApellidoI(apellido.getText());
+            if (comboGenero.getSelectedIndex()==0) {
+                objeto.setGenero("M");
+            }else{
+                objeto.setGenero("F");
+            }
+            objeto.setCorreo(correo.getText());
+            objeto.setFoto(String.valueOf(fichero));
+            try{
+            String nombreSeccion= String.valueOf(comboSeccion.getSelectedItem());  
+            
+            String sql = "SELECT codigo_seccion FROM seccion WHERE seccion='"+nombreSeccion+"'";
+            PreparedStatement verDatos = con.conectar().prepareStatement(sql);
+            ResultSet ver = verDatos.executeQuery();
+            
+                if (ver.next()) {
+                    objeto.setSeccion(ver.getInt(1));
+                }
+            
+            String nombreProyecto= String.valueOf(comboProyecto.getSelectedItem());  
+            
+            String sql1 = "SELECT codigo_proyecto FROM proyectos WHERE nombre_proyecto='"+nombreProyecto+"'";
+            PreparedStatement verDatos1 = con.conectar().prepareStatement(sql1);
+            ResultSet ver1 = verDatos1.executeQuery();
+                if (ver1.next()) {
+                    objeto.setProyecto(ver1.getInt(1));
+                }
+            
+            }
+            catch(Exception e){
+                System.out.println("Erro: "+e);
+            }
+            
+            
+            if (objeto.guardarIntegrantes()) {
+                JOptionPane.showMessageDialog(this, "Datos Guardados");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error");
+            }
+            int filas=modeloTabla3.getRowCount();
+            for (int i = 0; filas>i; i++) {
+                modeloTabla3.removeRow(0);
+            }
+            setFilas3();
+        
     }//GEN-LAST:event_agregar2MouseClicked
 
     private void modificar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificar2MouseClicked
         // TODO add your handling code here:
+         MtoProyectos objeto = new MtoProyectos();
+            objeto.setCarnet(Integer.parseInt(codigo2.getText()));
+            objeto.setNombreI(nombre2.getText());
+            objeto.setApellidoI(apellido.getText());
+            if (comboGenero.getSelectedIndex()==0) {
+                objeto.setGenero("M");
+            }else{
+                objeto.setGenero("F");
+            }
+            objeto.setCorreo(correo.getText());
+            objeto.setFoto(String.valueOf(fichero));
+            try{
+            String nombreSeccion= String.valueOf(comboSeccion.getSelectedItem());  
+            
+            String sql = "SELECT codigo_seccion FROM seccion WHERE seccion='"+nombreSeccion+"'";
+            PreparedStatement verDatos = con.conectar().prepareStatement(sql);
+            ResultSet ver = verDatos.executeQuery();
+            
+                if (ver.next()) {
+                    objeto.setSeccion(ver.getInt(1));
+                }
+            
+            String nombreProyecto= String.valueOf(comboProyecto.getSelectedItem());  
+            
+            String sql1 = "SELECT codigo_proyecto FROM proyectos WHERE nombre_proyecto='"+nombreProyecto+"'";
+            PreparedStatement verDatos1 = con.conectar().prepareStatement(sql1);
+            ResultSet ver1 = verDatos1.executeQuery();
+                if (ver1.next()) {
+                    objeto.setProyecto(ver1.getInt(1));
+                }
+            
+            }
+            catch(Exception e){
+                System.out.println("Erro: "+e);
+            }
+            
+            
+            if (objeto.modificarIntegrantes()) {
+                JOptionPane.showMessageDialog(this, "Datos Modificados");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error");
+            }
+            int filas=modeloTabla3.getRowCount();
+            for (int i = 0; filas>i; i++) {
+                modeloTabla3.removeRow(0);
+            }
+            setFilas3();
     }//GEN-LAST:event_modificar2MouseClicked
 
     private void eliminar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar2MouseClicked
         // TODO add your handling code here:
+        MtoProyectos objeto = new MtoProyectos();
+        objeto.setCarnet(Integer.valueOf(codigo2.getText()));
+        int eliminar= JOptionPane.showConfirmDialog(this, "¿Estas seguro de eliminar este integrante?", "Atencion", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if (eliminar==0) {
+           if (objeto.eliminarIntegrantes()) {
+            JOptionPane.showMessageDialog(this, "Datos Eliminados");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error");
+        }  
+        }
+        int filas=modeloTabla3.getRowCount();
+                for (int i = 0; filas>i; i++) {
+                    modeloTabla3.removeRow(0);
+                }
+                    setFilas3();
     }//GEN-LAST:event_eliminar2MouseClicked
 
     private void buscar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buscar2MouseClicked
         // TODO add your handling code here:
+        MtoProyectos objeto = new MtoProyectos();
+        objeto.setCarnet(Integer.valueOf(codigo2.getText()));
+        
+        if (objeto.consultarIntegrantes()) {
+            codigo2.setText(""+objeto.getCarnet());
+            nombre2.setText(objeto.getNombreI());
+            apellido.setText(objeto.getApellidoI());
+            if (objeto.getGenero().equals("M")) {
+                comboGenero.setSelectedIndex(0);
+            }else{
+                comboGenero.setSelectedIndex(1);
+            }
+            correo.setText(objeto.getCorreo());
+            
+            
+            ImageIcon icon = new ImageIcon(objeto.getFoto());
+            ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(foto.getWidth(), foto.getHeight(), Image.SCALE_DEFAULT));
+            foto.setIcon(icono);
+            
+            try{
+            String sql = "SELECT seccion FROM seccion WHERE codigo_seccion="+objeto.getSeccion();
+            PreparedStatement verDatos = con.conectar().prepareStatement(sql);
+            ResultSet ver = verDatos.executeQuery();
+            
+                if (ver.next()) {
+                    comboSeccion.setSelectedItem(ver.getString(1));
+                }
+             
+            
+            String sql1 = "SELECT nombre_proyecto FROM proyectos WHERE codigo_proyecto="+objeto.getProyecto();
+            PreparedStatement verDatos1 = con.conectar().prepareStatement(sql1);
+            ResultSet ver1 = verDatos1.executeQuery();
+                if (ver1.next()) {
+                    comboProyecto.setSelectedItem(ver1.getString(1));
+                }
+            
+            }
+            catch(Exception e){
+                System.out.println("Erro: "+e);
+            }
+                   
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Datos No Encontrados");
+        }  
+        int filas=modeloTabla2.getRowCount();
+        for (int i = 0; filas>i; i++) {
+            modeloTabla2.removeRow(0);
+        }
+            setFilas2();
     }//GEN-LAST:event_buscar2MouseClicked
     //Variable de tipo "file"
     File fichero;
@@ -921,6 +1083,7 @@ public class formulario1 extends javax.swing.JFrame {
     private javax.swing.JTextField codigo;
     private javax.swing.JTextField codigo1;
     private javax.swing.JTextField codigo2;
+    private javax.swing.JComboBox<String> comboGenero;
     private javax.swing.JComboBox<String> comboProyecto;
     private javax.swing.JComboBox<String> comboSeccion;
     private javax.swing.JTextField correo;
@@ -933,7 +1096,6 @@ public class formulario1 extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

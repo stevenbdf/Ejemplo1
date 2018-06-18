@@ -481,7 +481,116 @@ public class MtoProyectos {
     public boolean guardarIntegrantes(){
         boolean resp= false;
         try {
+            String sql = "INSERT INTO integrantes (carnet, nombres, apellidos, genero, correo, foto, codigo_seccion, codigo_proyecto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+          
+            //Se pasan por referencia por seguridad
+            //importar clase PreparedStatement
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            //Llenar los parametros de la clase, se coloca en el ordne de la tabla
+            cmd.setInt(1, carnet);
+            cmd.setString(2, nombreI);
+            cmd.setString(3, apellidoI);
+            cmd.setString(4, genero);
+            cmd.setString(5, correo);
+            cmd.setString(6, foto);
+            cmd.setInt(7, seccion);
+            cmd.setInt(8, proyecto);
+            //Si da error devuelve 1, caso contrario 0
+            if (!cmd.execute()) {
+                resp=true;
+                
+            }
+            //Cerrando conexion
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return resp;
+    }
+    
+    public boolean modificarIntegrantes(){
+        boolean resp= false;
+        try {
+            String sql = "UPDATE integrantes SET nombres=?, apellidos=?, genero=?, correo=?, foto=?, codigo_seccion=?, codigo_proyecto=? WHERE carnet=?";
+          
+            //Se pasan por referencia por seguridad
+            //importar clase PreparedStatement
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            //Llenar los parametros de la clase, se coloca en el ordne de la tabla
             
+            cmd.setString(1, nombreI);
+            cmd.setString(2, apellidoI);
+            cmd.setString(3, genero);
+            cmd.setString(4, correo);
+            cmd.setString(5, foto);
+            cmd.setInt(6, seccion);
+            cmd.setInt(7, proyecto);
+            cmd.setInt(8, carnet);
+            //Si da error devuelve 1, caso contrario 0
+            if (!cmd.execute()) {
+                resp=true;
+                
+            }
+            //Cerrando conexion
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return resp;
+    }
+    
+    public boolean eliminarIntegrantes(){
+        boolean resp = false;
+        try {
+            String sql = "DELETE FROM integrantes WHERE carnet=?;";
+          
+            //Se pasan por referencia por seguridad
+            //importar clase PreparedStatement
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            //Llenar los parametros de la clase, se coloca en el ordne de la tabla
+            cmd.setInt(1, carnet);
+            //Si da error devuelve 1, caso contrario 0
+            if (!cmd.execute()) {
+                resp=true;
+            }
+            //Cerrando conexion
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return resp;
+    }
+    
+    public boolean consultarIntegrantes(){
+        boolean resp= false;
+        try {
+             String sql = "SELECT carnet, nombres, apellidos, genero, correo, foto, codigo_seccion, codigo_proyecto FROM integrantes WHERE carnet=?";
+          
+            //Se pasan por referencia por seguridad
+            //importar clase PreparedStatement
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            //Llenar los parametros de la clase, se coloca en el ordne de la tabla
+            cmd.setInt(1, carnet);
+            //Importar clase resultset
+            ResultSet rs= cmd.executeQuery();
+            //Recorrer la lista de registro
+            if (rs.next()) {
+                resp = true;
+                //asignandole a los atributos de la clase 
+                carnet = rs.getInt(1);
+                nombreI = rs.getString(2);
+                apellidoI=rs.getString(3);
+                genero=rs.getString(4);
+                correo=rs.getString(5);
+                foto=rs.getString(6);
+                seccion=rs.getInt(7);
+                proyecto=rs.getInt(8);
+            }
+            cmd.close();
+            cn.close();
         } catch (Exception e) {
             System.out.println(e.toString());
         }
