@@ -6,6 +6,7 @@
 package ejercicio1;
 
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.ImageIcon;
@@ -34,181 +35,177 @@ public class formulario1 extends javax.swing.JFrame {
     DefaultTableModel modeloTabla3;
     DefaultComboBoxModel modeloCombo;
     DefaultComboBoxModel modeloCombo2;
-    
-    Conexion con= new Conexion();
+
+    Conexion con = new Conexion();
+
     public formulario1() {
-        
-        modeloTabla= new DefaultTableModel(null, getColumnas());
+
+        modeloTabla = new DefaultTableModel(null, getColumnas());
         setFilas();
-        modeloTabla2= new DefaultTableModel(null, getColumnas2());
+        modeloTabla2 = new DefaultTableModel(null, getColumnas2());
         setFilas2();
-        modeloTabla3= new DefaultTableModel(null, getColumnas3());
+        modeloTabla3 = new DefaultTableModel(null, getColumnas3());
         setFilas3();
-        
-        modeloCombo = new DefaultComboBoxModel(new String [] {});
-        modeloCombo2 = new DefaultComboBoxModel(new String [] {});
-        
+
+        modeloCombo = new DefaultComboBoxModel(new String[]{});
+        modeloCombo2 = new DefaultComboBoxModel(new String[]{});
+
         initComponents();
         llenaComboBox();
         llenaComboBox2();
         setLocationRelativeTo(null);
-        
-        ImageIcon foto = new ImageIcon (getClass().getResource("/imagenes/agregar.png"));
-        ImageIcon icono = new ImageIcon(foto.getImage().getScaledInstance(agregar.getWidth(),agregar.getHeight(),Image.SCALE_DEFAULT));
+
+        ImageIcon foto = new ImageIcon(getClass().getResource("/imagenes/agregar.png"));
+        ImageIcon icono = new ImageIcon(foto.getImage().getScaledInstance(agregar.getWidth(), agregar.getHeight(), Image.SCALE_DEFAULT));
         agregar.setIcon(icono);
-        
-        ImageIcon foto1 = new ImageIcon (getClass().getResource("/imagenes/modificar.png"));
-        ImageIcon icono1 = new ImageIcon(foto1.getImage().getScaledInstance(modificar.getWidth(),modificar.getHeight(),Image.SCALE_DEFAULT));
+
+        ImageIcon foto1 = new ImageIcon(getClass().getResource("/imagenes/modificar.png"));
+        ImageIcon icono1 = new ImageIcon(foto1.getImage().getScaledInstance(modificar.getWidth(), modificar.getHeight(), Image.SCALE_DEFAULT));
         modificar.setIcon(icono1);
-        
-        ImageIcon foto2 = new ImageIcon (getClass().getResource("/imagenes/eliminar.png"));
-        ImageIcon icono2 = new ImageIcon(foto2.getImage().getScaledInstance(eliminar.getWidth(),eliminar.getHeight(),Image.SCALE_DEFAULT));
+
+        ImageIcon foto2 = new ImageIcon(getClass().getResource("/imagenes/eliminar.png"));
+        ImageIcon icono2 = new ImageIcon(foto2.getImage().getScaledInstance(eliminar.getWidth(), eliminar.getHeight(), Image.SCALE_DEFAULT));
         eliminar.setIcon(icono2);
-        
-        ImageIcon foto3 = new ImageIcon (getClass().getResource("/imagenes/guardar.png"));
-        ImageIcon icono3 = new ImageIcon(foto3.getImage().getScaledInstance(buscar.getWidth(),buscar.getHeight(),Image.SCALE_DEFAULT));
+
+        ImageIcon foto3 = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
+        ImageIcon icono3 = new ImageIcon(foto3.getImage().getScaledInstance(buscar.getWidth(), buscar.getHeight(), Image.SCALE_DEFAULT));
         buscar.setIcon(icono3);
-        
-        ImageIcon foto4 = new ImageIcon (getClass().getResource("/imagenes/actualizar.png"));
-        ImageIcon icono4 = new ImageIcon(foto4.getImage().getScaledInstance(actualizar.getWidth(),actualizar.getHeight(),Image.SCALE_DEFAULT));
+
+        ImageIcon foto4 = new ImageIcon(getClass().getResource("/imagenes/actualizar.png"));
+        ImageIcon icono4 = new ImageIcon(foto4.getImage().getScaledInstance(actualizar.getWidth(), actualizar.getHeight(), Image.SCALE_DEFAULT));
         actualizar.setIcon(icono4);
-        
-      
-        agregar1.setIcon(icono); 
+
+        agregar1.setIcon(icono);
         modificar1.setIcon(icono1);
         eliminar1.setIcon(icono2);
         buscar1.setIcon(icono3);
         actualizar1.setIcon(icono4);
-        
-        agregar2.setIcon(icono); 
+
+        agregar2.setIcon(icono);
         modificar2.setIcon(icono1);
         eliminar2.setIcon(icono2);
         buscar2.setIcon(icono3);
         actualizar2.setIcon(icono4);
     }
-    
+
     private void llenaComboBox() {
         modeloCombo.removeAllElements();
         try {
-            
+
             /* Realizamos la consulta a la base de datos*/
-            String sql = "SELECT seccion FROM seccion";  
+            String sql = "SELECT seccion FROM seccion";
             PreparedStatement verDatos = con.conectar().prepareStatement(sql);
-            ResultSet ver = verDatos.executeQuery(); 
+            ResultSet ver = verDatos.executeQuery();
             while (ver.next()) {
-              
+
                 modeloCombo.addElement(ver.getObject("seccion"));
             }
 
         } catch (SQLException ex) {
-            System.out.println("Error: "+ex);
+            System.out.println("Error: " + ex);
 
         }
     }
-    
+
     private void llenaComboBox2() {
         modeloCombo2.removeAllElements();
         try {
-            
+
             /* Realizamos la consulta a la base de datos*/
-            String sql = "SELECT nombre_proyecto FROM proyectos";  
+            String sql = "SELECT nombre_proyecto FROM proyectos";
             PreparedStatement verDatos = con.conectar().prepareStatement(sql);
-            ResultSet ver = verDatos.executeQuery(); 
+            ResultSet ver = verDatos.executeQuery();
             while (ver.next()) {
-              
+
                 modeloCombo2.addElement(ver.getObject("nombre_proyecto"));
             }
 
         } catch (SQLException ex) {
-            System.out.println("Error: "+ex);
+            System.out.println("Error: " + ex);
 
         }
     }
-    
-    private String[] getColumnas(){
-        String columnas[] = new String[]{"CODIGO","NOMBRE","AÑO","COSTO","FECHA REGISTRO"};
+
+    private String[] getColumnas() {
+        String columnas[] = new String[]{"CODIGO", "NOMBRE", "AÑO", "COSTO", "FECHA REGISTRO"};
         return columnas;
     }
-    
-    private void setFilas(){
-        try{
+
+    private void setFilas() {
+        try {
             String consulta = "SELECT codigo_proyecto, nombre_proyecto, anio_creacion, costo, fecha_creacion FROM proyectos";
-            
-                PreparedStatement us = con.conectar().prepareStatement(consulta);
-                ResultSet resultado = us.executeQuery();
-                
-                Object datos[]= new Object[5];
-                
-                while(resultado.next()){
-                    for (int i = 0; i <datos.length; i++) {
-                        datos[i]= resultado.getObject(i+1);
-                    }
-                    modeloTabla.addRow(datos);
+
+            PreparedStatement us = con.conectar().prepareStatement(consulta);
+            ResultSet resultado = us.executeQuery();
+
+            Object datos[] = new Object[5];
+
+            while (resultado.next()) {
+                for (int i = 0; i < datos.length; i++) {
+                    datos[i] = resultado.getObject(i + 1);
                 }
-        }
-        catch(Exception e){
-            
-                
+                modeloTabla.addRow(datos);
             }
-            
+        } catch (Exception e) {
+
         }
-    private String[] getColumnas2(){
-        String columnas[] = new String[]{"CODIGO","NOMBRE"};
+
+    }
+
+    private String[] getColumnas2() {
+        String columnas[] = new String[]{"CODIGO", "NOMBRE"};
         return columnas;
     }
-    private void setFilas2(){
-        try{
+
+    private void setFilas2() {
+        try {
             String consulta = "SELECT codigo_seccion, seccion FROM seccion";
-            
-                PreparedStatement us = con.conectar().prepareStatement(consulta);
-                ResultSet resultado = us.executeQuery();
-                
-                Object datos[]= new Object[2];
-                
-                while(resultado.next()){
-                    for (int i = 0; i <datos.length; i++) {
-                        datos[i]= resultado.getObject(i+1);
-                    }
-                    modeloTabla2.addRow(datos);
+
+            PreparedStatement us = con.conectar().prepareStatement(consulta);
+            ResultSet resultado = us.executeQuery();
+
+            Object datos[] = new Object[2];
+
+            while (resultado.next()) {
+                for (int i = 0; i < datos.length; i++) {
+                    datos[i] = resultado.getObject(i + 1);
                 }
-        }
-        catch(Exception e){
-            
-                
+                modeloTabla2.addRow(datos);
             }
-            
+        } catch (Exception e) {
+
         }
-    private String[] getColumnas3(){
-        String columnas[] = new String[]{"CARNET","NOMBRE","APELLIDO","GENERO","CORREO","SECCION","PROYECTO"};
+
+    }
+
+    private String[] getColumnas3() {
+        String columnas[] = new String[]{"CARNET", "NOMBRE", "APELLIDO", "GENERO", "CORREO", "SECCION", "PROYECTO"};
         return columnas;
     }
-    private void setFilas3(){
-        try{
+
+    private void setFilas3() {
+        try {
             String consulta = "SELECT carnet, nombres, apellidos, genero, correo, seccion.seccion,proyectos.nombre_proyecto "
                     + " FROM proyectos, seccion, integrantes "
                     + "WHERE integrantes.codigo_proyecto=proyectos.codigo_proyecto AND integrantes.codigo_seccion=seccion.codigo_seccion ";
-            
-            
-                PreparedStatement us = con.conectar().prepareStatement(consulta);
-                ResultSet resultado = us.executeQuery();
-                
-                Object datos[]= new Object[7];
-                
-                while(resultado.next()){
-                    for (int i = 0; i <datos.length; i++) {
-                        datos[i]= resultado.getObject(i+1);
-                    }
-                    modeloTabla3.addRow(datos);
+
+            PreparedStatement us = con.conectar().prepareStatement(consulta);
+            ResultSet resultado = us.executeQuery();
+
+            Object datos[] = new Object[7];
+
+            while (resultado.next()) {
+                for (int i = 0; i < datos.length; i++) {
+                    datos[i] = resultado.getObject(i + 1);
                 }
-        }
-        catch(Exception e){
-            
-                
+                modeloTabla3.addRow(datos);
             }
-            
+        } catch (Exception e) {
+
         }
-   
-        
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -324,10 +321,43 @@ public class formulario1 extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
         jLabel6.setText("Costo ($):");
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, 30));
+
+        nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nombreKeyTyped(evt);
+            }
+        });
         jPanel3.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 150, 30));
+
+        año.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                añoKeyTyped(evt);
+            }
+        });
         jPanel3.add(año, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 100, 30));
+
+        costo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                costoKeyTyped(evt);
+            }
+        });
         jPanel3.add(costo, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 100, 30));
+
+        fecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                fechaKeyTyped(evt);
+            }
+        });
         jPanel3.add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, 100, 30));
+
+        codigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                codigoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                codigoKeyTyped(evt);
+            }
+        });
         jPanel3.add(codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 100, 30));
 
         buscar.setText("Button1");
@@ -613,83 +643,104 @@ public class formulario1 extends javax.swing.JFrame {
 
     private void agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregarMouseClicked
         // TODO add your handling code here:
-        MtoProyectos objeto = new MtoProyectos();
-        objeto.setCodigo(Integer.parseInt(codigo.getText()));
-        objeto.setNombre(nombre.getText());
-        objeto.setAnio(año.getText());
-        objeto.setCosto(Double.parseDouble(costo.getText()));
-        objeto.setFecha(fecha.getText());
-        
-        if (objeto.guardarProyecto()) {
-            JOptionPane.showMessageDialog(this, "Datos Guardados");
+        //Para validar campos vacios tambien se puede utilizar .isEmpty o jTextField1.getText().length()!=0
+        if (codigo.getText().equals("") || nombre.getText().equals("") || año.getText().equals("") || costo.getText().equals("") || fecha.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, " Error Campos Vacios");
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
-        }  
-        int filas=modeloTabla.getRowCount();
-                for (int i = 0; filas>i; i++) {
-                    modeloTabla.removeRow(0);
-                }
-                    setFilas();
+
+            MtoProyectos objeto = new MtoProyectos();
+            objeto.setCodigo(Integer.parseInt(codigo.getText()));
+            objeto.setNombre(nombre.getText());
+            objeto.setAnio(año.getText());
+            objeto.setCosto(Double.parseDouble(costo.getText()));
+            objeto.setFecha(fecha.getText());
+
+            if (objeto.guardarProyecto()) {
+                JOptionPane.showMessageDialog(this, "Datos Guardados");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error");
+            }
+            int filas = modeloTabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modeloTabla.removeRow(0);
+            }
+            setFilas();
+        }
+
     }//GEN-LAST:event_agregarMouseClicked
 
     private void modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificarMouseClicked
         // TODO add your handling code here:
-        MtoProyectos objeto = new MtoProyectos();
-        objeto.setCodigo(Integer.parseInt(codigo.getText()));
-        objeto.setNombre(nombre.getText());
-        objeto.setAnio(año.getText());
-        objeto.setCosto(Double.parseDouble(costo.getText()));
-        objeto.setFecha(fecha.getText());
-        
-        if (objeto.modificarProyecto()) {
-            JOptionPane.showMessageDialog(this, "Datos Modificados");
+        if (codigo.getText().equals("") || nombre.getText().equals("") || año.getText().equals("") || costo.getText().equals("") || fecha.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, " Error Campos Vacios");
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
-        } 
-        int filas=modeloTabla.getRowCount();
-        for (int i = 0; filas>i; i++) {
-            modeloTabla.removeRow(0);
-        }
+            MtoProyectos objeto = new MtoProyectos();
+            objeto.setCodigo(Integer.parseInt(codigo.getText()));
+            objeto.setNombre(nombre.getText());
+            objeto.setAnio(año.getText());
+            objeto.setCosto(Double.parseDouble(costo.getText()));
+            objeto.setFecha(fecha.getText());
+
+            if (objeto.modificarProyecto()) {
+                JOptionPane.showMessageDialog(this, "Datos Modificados");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error");
+            }
+            int filas = modeloTabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modeloTabla.removeRow(0);
+            }
             setFilas();
+        }
+
     }//GEN-LAST:event_modificarMouseClicked
 
     private void eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarMouseClicked
         // TODO add your handling code here:
-        MtoProyectos objeto = new MtoProyectos();
-        objeto.setCodigo(Integer.valueOf(codigo.getText()));
-        int eliminar= JOptionPane.showConfirmDialog(this, "¿Estas seguro de eliminar este proyecto", "Atencion", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-        if (eliminar==0) {
-           if (objeto.eliminarProyecto()) {
-            JOptionPane.showMessageDialog(this, "Datos Eliminados");
+        if (codigo.getText().equals("") || nombre.getText().equals("") || año.getText().equals("") || costo.getText().equals("") || fecha.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, " Error Campos Vacios");
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
-        }  
-        }
-        int filas=modeloTabla.getRowCount();
-        for (int i = 0; filas>i; i++) {
-            modeloTabla.removeRow(0);
-        }
+
+            MtoProyectos objeto = new MtoProyectos();
+            objeto.setCodigo(Integer.valueOf(codigo.getText()));
+            int eliminar = JOptionPane.showConfirmDialog(this, "¿Estas seguro de eliminar este proyecto", "Atencion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (eliminar == 0) {
+                if (objeto.eliminarProyecto()) {
+                    JOptionPane.showMessageDialog(this, "Datos Eliminados");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error");
+                }
+            }
+            int filas = modeloTabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modeloTabla.removeRow(0);
+            }
             setFilas();
+        }
     }//GEN-LAST:event_eliminarMouseClicked
 
     private void buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buscarMouseClicked
         // TODO add your handling code here:
-        MtoProyectos objeto = new MtoProyectos();
-        objeto.setCodigo(Integer.valueOf(codigo.getText()));
-        
-        if (objeto.consultarProyecto()) {
-            nombre.setText(""+objeto.getNombre());
-            año.setText(""+objeto.getAnio());
-            costo.setText(""+objeto.getCosto());
-            fecha.setText(""+objeto.getFecha());
+        if (codigo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, " Error Campos Vacios");
         } else {
-            JOptionPane.showMessageDialog(this, "Datos No Encontrados");
-        }  
-        int filas=modeloTabla.getRowCount();
-        for (int i = 0; filas>i; i++) {
-            modeloTabla.removeRow(0);
-        }
+            MtoProyectos objeto = new MtoProyectos();
+            objeto.setCodigo(Integer.valueOf(codigo.getText()));
+
+            if (objeto.consultarProyecto()) {
+                nombre.setText("" + objeto.getNombre());
+                año.setText("" + objeto.getAnio());
+                costo.setText("" + objeto.getCosto());
+                fecha.setText("" + objeto.getFecha());
+            } else {
+                JOptionPane.showMessageDialog(this, "Datos No Encontrados");
+            }
+            int filas = modeloTabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modeloTabla.removeRow(0);
+            }
             setFilas();
+        }
     }//GEN-LAST:event_buscarMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -703,105 +754,122 @@ public class formulario1 extends javax.swing.JFrame {
 
     private void actualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizarMouseClicked
         // TODO add your handling code here:
-        int filas=modeloTabla.getRowCount();
-        for (int i = 0; filas>i; i++) {
+        int filas = modeloTabla.getRowCount();
+        for (int i = 0; filas > i; i++) {
             modeloTabla.removeRow(0);
         }
-            setFilas();
-        
+        setFilas();
+
     }//GEN-LAST:event_actualizarMouseClicked
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
         // TODO add your handling code here:
-        codigo.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(),0)));
-        nombre.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(),1)));
-        año.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(),2)));
-        costo.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(),3)));
-        fecha.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(),4)));
-        
-        
+        codigo.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(), 0)));
+        nombre.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(), 1)));
+        año.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(), 2)));
+        costo.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(), 3)));
+        fecha.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(), 4)));
+
+
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void actualizar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizar1MouseClicked
         // TODO add your handling code here:
-        int filas=modeloTabla2.getRowCount();
-                for (int i = 0; filas>i; i++) {
-                    modeloTabla2.removeRow(0);
-                }
-                    setFilas2();
+        int filas = modeloTabla2.getRowCount();
+        for (int i = 0; filas > i; i++) {
+            modeloTabla2.removeRow(0);
+        }
+        setFilas2();
     }//GEN-LAST:event_actualizar1MouseClicked
 
     private void agregar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregar1MouseClicked
         // TODO add your handling code here:
-        MtoProyectos objeto = new MtoProyectos();
-        objeto.setCodigoS(Integer.parseInt(codigo1.getText()));
-        objeto.setNombreS(nombre1.getText());
-        
-        if (objeto.guardarSeccion()) {
-            JOptionPane.showMessageDialog(this, "Datos Guardados");
+        if (codigo1.getText().isEmpty() || nombre1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Error Campos Vacios");
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
-        }  
-        int filas=modeloTabla2.getRowCount();
-                for (int i = 0; filas>i; i++) {
-                    modeloTabla2.removeRow(0);
-                }
-                    setFilas2();
+
+            MtoProyectos objeto = new MtoProyectos();
+            objeto.setCodigoS(Integer.parseInt(codigo1.getText()));
+            objeto.setNombreS(nombre1.getText());
+
+            if (objeto.guardarSeccion()) {
+                JOptionPane.showMessageDialog(this, "Datos Guardados");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error");
+            }
+            int filas = modeloTabla2.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modeloTabla2.removeRow(0);
+            }
+            setFilas2();
+        }
     }//GEN-LAST:event_agregar1MouseClicked
 
     private void modificar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificar1MouseClicked
         // TODO add your handling code here:
-        MtoProyectos objeto = new MtoProyectos();
-        objeto.setCodigoS(Integer.parseInt(codigo1.getText()));
-        objeto.setNombreS(nombre1.getText());
-        
-        if (objeto.modificarSeccion()) {
-            JOptionPane.showMessageDialog(this, "Datos Modificados");
+        if (codigo1.getText().isEmpty() || nombre1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Error Campos Vacios");
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
-        }  
-        int filas=modeloTabla2.getRowCount();
-                for (int i = 0; filas>i; i++) {
-                    modeloTabla2.removeRow(0);
-                }
-                    setFilas2();
+            MtoProyectos objeto = new MtoProyectos();
+            objeto.setCodigoS(Integer.parseInt(codigo1.getText()));
+            objeto.setNombreS(nombre1.getText());
+
+            if (objeto.modificarSeccion()) {
+                JOptionPane.showMessageDialog(this, "Datos Modificados");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error");
+            }
+            int filas = modeloTabla2.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modeloTabla2.removeRow(0);
+            }
+            setFilas2();
+        }
     }//GEN-LAST:event_modificar1MouseClicked
 
     private void eliminar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar1MouseClicked
         // TODO add your handling code here:
-        MtoProyectos objeto = new MtoProyectos();
-        objeto.setCodigoS(Integer.valueOf(codigo1.getText()));
-        int eliminar= JOptionPane.showConfirmDialog(this, "¿Estas seguro de eliminar esta seccion", "Atencion", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-        if (eliminar==0) {
-           if (objeto.eliminarSeccion()) {
-            JOptionPane.showMessageDialog(this, "Datos Eliminados");
+        if (codigo1.getText().isEmpty() || nombre1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Error Campos Vacios");
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
-        }  
-        }
-        int filas=modeloTabla2.getRowCount();
-                for (int i = 0; filas>i; i++) {
-                    modeloTabla2.removeRow(0);
+            MtoProyectos objeto = new MtoProyectos();
+            objeto.setCodigoS(Integer.valueOf(codigo1.getText()));
+            int eliminar = JOptionPane.showConfirmDialog(this, "¿Estas seguro de eliminar esta seccion", "Atencion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (eliminar == 0) {
+                if (objeto.eliminarSeccion()) {
+                    JOptionPane.showMessageDialog(this, "Datos Eliminados");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error");
                 }
-                    setFilas2();
+            }
+            int filas = modeloTabla2.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modeloTabla2.removeRow(0);
+            }
+            setFilas2();
+        }
     }//GEN-LAST:event_eliminar1MouseClicked
 
     private void buscar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buscar1MouseClicked
         // TODO add your handling code here:
-        MtoProyectos objeto = new MtoProyectos();
-        objeto.setCodigoS(Integer.valueOf(codigo1.getText()));
-        
-        if (objeto.consultarSeccion()) {
-            nombre1.setText(""+objeto.getNombreS());
-            
+        if (codigo1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Error Campos Vacios");
         } else {
-            JOptionPane.showMessageDialog(this, "Datos No Encontrados");
-        }  
-        int filas=modeloTabla2.getRowCount();
-        for (int i = 0; filas>i; i++) {
-            modeloTabla2.removeRow(0);
-        }
+            MtoProyectos objeto = new MtoProyectos();
+            objeto.setCodigoS(Integer.valueOf(codigo1.getText()));
+
+            if (objeto.consultarSeccion()) {
+                nombre1.setText("" + objeto.getNombreS());
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Datos No Encontrados");
+            }
+            int filas = modeloTabla2.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modeloTabla2.removeRow(0);
+            }
             setFilas2();
+        }
     }//GEN-LAST:event_buscar1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -812,195 +880,258 @@ public class formulario1 extends javax.swing.JFrame {
 
     private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
         // TODO add your handling code here:
-        codigo1.setText(String.valueOf(modeloTabla2.getValueAt(jTable3.getSelectedRow(),0)));
-        nombre1.setText(String.valueOf(modeloTabla2.getValueAt(jTable3.getSelectedRow(),1)));
+        codigo1.setText(String.valueOf(modeloTabla2.getValueAt(jTable3.getSelectedRow(), 0)));
+        nombre1.setText(String.valueOf(modeloTabla2.getValueAt(jTable3.getSelectedRow(), 1)));
     }//GEN-LAST:event_jTable3MouseClicked
 
     private void jTable4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable4MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTable4MouseClicked
+        MtoProyectos objeto = new MtoProyectos();
+        codigo2.setText(String.valueOf(modeloTabla3.getValueAt(jTable4.getSelectedRow(), (0))));
+        nombre2.setText(String.valueOf(modeloTabla3.getValueAt(jTable4.getSelectedRow(), (1))));
+        apellido.setText(String.valueOf(modeloTabla3.getValueAt(jTable4.getSelectedRow(), (2))));
 
+        if (modeloTabla3.getValueAt(jTable4.getSelectedRow(), (3)).equals("M")) {
+            comboGenero.setSelectedItem("Masculino");
+        } else {
+            comboGenero.setSelectedItem("Femenino");
+        }
+        correo.setText(String.valueOf(modeloTabla3.getValueAt(jTable4.getSelectedRow(), (4))));
+
+        comboSeccion.setSelectedItem(modeloTabla3.getValueAt(jTable4.getSelectedRow(), (5)));
+        comboProyecto.setSelectedItem(modeloTabla3.getValueAt(jTable4.getSelectedRow(), (6)));
+
+        try {
+            String sql1 = "SELECT foto FROM integrantes WHERE carnet=" + Integer.valueOf(codigo2.getText());
+            PreparedStatement verDatos1 = con.conectar().prepareStatement(sql1);
+            ResultSet ver1 = verDatos1.executeQuery();
+            if (ver1.next()) {
+                ImageIcon icon = new ImageIcon(ver1.getString(1));
+                ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(foto.getWidth(), foto.getHeight(), Image.SCALE_DEFAULT));
+                foto.setIcon(icono);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        int filas = modeloTabla3.getRowCount();
+        for (int i = 0; filas > i; i++) {
+            modeloTabla3.removeRow(0);
+        }
+        setFilas3();
+
+    }
+
+    /*
+    private void modificar2MouseClicked(java.awt.event.MouseEvent evt) {                                        
+        // TODO add your handling code here:
+         MtoProyectos objeto = new MtoProyectos();
+        objeto.setCarnet(Integer.parseInt(codigo2.getText()));
+        objeto.setNombreI(nombre2.getText());
+        objeto.setApellidoI(apellido.getText());
+        if (comboGenero.getSelectedIndex() == 0) {
+            objeto.setGenero("M");
+        } else {
+            objeto.setGenero("F");
+        }
+        objeto.setCorreo(correo.getText());
+        objeto.setFoto(String.valueOf(fichero));
+        try {
+            String nombreSeccion = String.valueOf(comboSeccion.getSelectedItem());
+
+            String sql = "SELECT codigo_seccion FROM seccion WHERE seccion='" + nombreSeccion + "'";
+            PreparedStatement verDatos = con.conectar().prepareStatement(sql);
+            ResultSet ver = verDatos.executeQuery();
+
+            if (ver.next()) {
+                objeto.setSeccion(ver.getInt(1));
+            }
+
+            String nombreProyecto = String.valueOf(comboProyecto.getSelectedItem());
+
+            String sql1 = "SELECT codigo_proyecto FROM proyectos WHERE nombre_proyecto='" + nombreProyecto + "'";
+            PreparedStatement verDatos1 = con.conectar().prepareStatement(sql1);
+            ResultSet ver1 = verDatos1.executeQuery();
+            if (ver1.next()) {
+                objeto.setProyecto(ver1.getInt(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+    }//GEN-LAST:event_jTable4MouseClicked
+*/
     private void actualizar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizar2MouseClicked
         // TODO add your handling code here:
         llenaComboBox();
+        llenaComboBox2();
     }//GEN-LAST:event_actualizar2MouseClicked
 
     private void agregar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregar2MouseClicked
-        
-            // TODO add your handling code here:
-            
-            MtoProyectos objeto = new MtoProyectos();
-            objeto.setCarnet(Integer.parseInt(codigo2.getText()));
-            objeto.setNombreI(nombre2.getText());
-            objeto.setApellidoI(apellido.getText());
-            if (comboGenero.getSelectedIndex()==0) {
-                objeto.setGenero("M");
-            }else{
-                objeto.setGenero("F");
-            }
-            objeto.setCorreo(correo.getText());
-            objeto.setFoto(String.valueOf(fichero));
-            try{
-            String nombreSeccion= String.valueOf(comboSeccion.getSelectedItem());  
-            
-            String sql = "SELECT codigo_seccion FROM seccion WHERE seccion='"+nombreSeccion+"'";
+
+        // TODO add your handling code here:
+        MtoProyectos objeto = new MtoProyectos();
+        objeto.setCarnet(Integer.parseInt(codigo2.getText()));
+        objeto.setNombreI(nombre2.getText());
+        objeto.setApellidoI(apellido.getText());
+        if (comboGenero.getSelectedIndex() == 0) {
+            objeto.setGenero("M");
+        } else {
+            objeto.setGenero("F");
+        }
+        objeto.setCorreo(correo.getText());
+        objeto.setFoto(String.valueOf(fichero));
+        try {
+            String nombreSeccion = String.valueOf(comboSeccion.getSelectedItem());
+
+            String sql = "SELECT codigo_seccion FROM seccion WHERE seccion='" + nombreSeccion + "'";
             PreparedStatement verDatos = con.conectar().prepareStatement(sql);
             ResultSet ver = verDatos.executeQuery();
-            
-                if (ver.next()) {
-                    objeto.setSeccion(ver.getInt(1));
-                }
-            
-            String nombreProyecto= String.valueOf(comboProyecto.getSelectedItem());  
-            
-            String sql1 = "SELECT codigo_proyecto FROM proyectos WHERE nombre_proyecto='"+nombreProyecto+"'";
+
+            if (ver.next()) {
+                objeto.setSeccion(ver.getInt(1));
+            }
+
+            String nombreProyecto = String.valueOf(comboProyecto.getSelectedItem());
+
+            String sql1 = "SELECT codigo_proyecto FROM proyectos WHERE nombre_proyecto='" + nombreProyecto + "'";
             PreparedStatement verDatos1 = con.conectar().prepareStatement(sql1);
             ResultSet ver1 = verDatos1.executeQuery();
-                if (ver1.next()) {
-                    objeto.setProyecto(ver1.getInt(1));
-                }
-            
+            if (ver1.next()) {
+                objeto.setProyecto(ver1.getInt(1));
             }
-            catch(Exception e){
-                System.out.println("Erro: "+e);
-            }
-            
-            
-            if (objeto.guardarIntegrantes()) {
-                JOptionPane.showMessageDialog(this, "Datos Guardados");
-            } else {
-                JOptionPane.showMessageDialog(this, "Error");
-            }
-            int filas=modeloTabla3.getRowCount();
-            for (int i = 0; filas>i; i++) {
-                modeloTabla3.removeRow(0);
-            }
-            setFilas3();
-        
+
+        } catch (Exception e) {
+            System.out.println("Erro: " + e);
+        }
+
+        if (objeto.guardarIntegrantes()) {
+            JOptionPane.showMessageDialog(this, "Datos Guardados");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error");
+        }
+        int filas = modeloTabla3.getRowCount();
+        for (int i = 0; filas > i; i++) {
+            modeloTabla3.removeRow(0);
+        }
+        setFilas3();
+
     }//GEN-LAST:event_agregar2MouseClicked
 
     private void modificar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificar2MouseClicked
         // TODO add your handling code here:
-         MtoProyectos objeto = new MtoProyectos();
-            objeto.setCarnet(Integer.parseInt(codigo2.getText()));
-            objeto.setNombreI(nombre2.getText());
-            objeto.setApellidoI(apellido.getText());
-            if (comboGenero.getSelectedIndex()==0) {
-                objeto.setGenero("M");
-            }else{
-                objeto.setGenero("F");
-            }
-            objeto.setCorreo(correo.getText());
-            objeto.setFoto(String.valueOf(fichero));
-            try{
-            String nombreSeccion= String.valueOf(comboSeccion.getSelectedItem());  
-            
-            String sql = "SELECT codigo_seccion FROM seccion WHERE seccion='"+nombreSeccion+"'";
+        MtoProyectos objeto = new MtoProyectos();
+        objeto.setCarnet(Integer.parseInt(codigo2.getText()));
+        objeto.setNombreI(nombre2.getText());
+        objeto.setApellidoI(apellido.getText());
+        if (comboGenero.getSelectedIndex() == 0) {
+            objeto.setGenero("M");
+        } else {
+            objeto.setGenero("F");
+        }
+        objeto.setCorreo(correo.getText());
+        objeto.setFoto(String.valueOf(fichero));
+        try {
+            String nombreSeccion = String.valueOf(comboSeccion.getSelectedItem());
+
+            String sql = "SELECT codigo_seccion FROM seccion WHERE seccion='" + nombreSeccion + "'";
             PreparedStatement verDatos = con.conectar().prepareStatement(sql);
             ResultSet ver = verDatos.executeQuery();
-            
-                if (ver.next()) {
-                    objeto.setSeccion(ver.getInt(1));
-                }
-            
-            String nombreProyecto= String.valueOf(comboProyecto.getSelectedItem());  
-            
-            String sql1 = "SELECT codigo_proyecto FROM proyectos WHERE nombre_proyecto='"+nombreProyecto+"'";
+
+            if (ver.next()) {
+                objeto.setSeccion(ver.getInt(1));
+            }
+
+            String nombreProyecto = String.valueOf(comboProyecto.getSelectedItem());
+
+            String sql1 = "SELECT codigo_proyecto FROM proyectos WHERE nombre_proyecto='" + nombreProyecto + "'";
             PreparedStatement verDatos1 = con.conectar().prepareStatement(sql1);
             ResultSet ver1 = verDatos1.executeQuery();
-                if (ver1.next()) {
-                    objeto.setProyecto(ver1.getInt(1));
-                }
-            
+            if (ver1.next()) {
+                objeto.setProyecto(ver1.getInt(1));
             }
-            catch(Exception e){
-                System.out.println("Erro: "+e);
-            }
-            
-            
-            if (objeto.modificarIntegrantes()) {
-                JOptionPane.showMessageDialog(this, "Datos Modificados");
-            } else {
-                JOptionPane.showMessageDialog(this, "Error");
-            }
-            int filas=modeloTabla3.getRowCount();
-            for (int i = 0; filas>i; i++) {
-                modeloTabla3.removeRow(0);
-            }
-            setFilas3();
+
+        } catch (Exception e) {
+            System.out.println("Erro: " + e);
+        }
+
+        if (objeto.modificarIntegrantes()) {
+            JOptionPane.showMessageDialog(this, "Datos Modificados");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error");
+        }
+        int filas = modeloTabla3.getRowCount();
+        for (int i = 0; filas > i; i++) {
+            modeloTabla3.removeRow(0);
+        }
+        setFilas3();
     }//GEN-LAST:event_modificar2MouseClicked
 
     private void eliminar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar2MouseClicked
         // TODO add your handling code here:
         MtoProyectos objeto = new MtoProyectos();
         objeto.setCarnet(Integer.valueOf(codigo2.getText()));
-        int eliminar= JOptionPane.showConfirmDialog(this, "¿Estas seguro de eliminar este integrante?", "Atencion", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-        if (eliminar==0) {
-           if (objeto.eliminarIntegrantes()) {
-            JOptionPane.showMessageDialog(this, "Datos Eliminados");
-        } else {
-            JOptionPane.showMessageDialog(this, "Error");
-        }  
+        int eliminar = JOptionPane.showConfirmDialog(this, "¿Estas seguro de eliminar este integrante?", "Atencion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (eliminar == 0) {
+            if (objeto.eliminarIntegrantes()) {
+                JOptionPane.showMessageDialog(this, "Datos Eliminados");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error");
+            }
         }
-        int filas=modeloTabla3.getRowCount();
-                for (int i = 0; filas>i; i++) {
-                    modeloTabla3.removeRow(0);
-                }
-                    setFilas3();
+        int filas = modeloTabla3.getRowCount();
+        for (int i = 0; filas > i; i++) {
+            modeloTabla3.removeRow(0);
+        }
+        setFilas3();
     }//GEN-LAST:event_eliminar2MouseClicked
 
     private void buscar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buscar2MouseClicked
         // TODO add your handling code here:
         MtoProyectos objeto = new MtoProyectos();
         objeto.setCarnet(Integer.valueOf(codigo2.getText()));
-        
+
         if (objeto.consultarIntegrantes()) {
-            codigo2.setText(""+objeto.getCarnet());
+            codigo2.setText("" + objeto.getCarnet());
             nombre2.setText(objeto.getNombreI());
             apellido.setText(objeto.getApellidoI());
             if (objeto.getGenero().equals("M")) {
                 comboGenero.setSelectedIndex(0);
-            }else{
+            } else {
                 comboGenero.setSelectedIndex(1);
             }
             correo.setText(objeto.getCorreo());
-            
-            
+
             ImageIcon icon = new ImageIcon(objeto.getFoto());
             ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(foto.getWidth(), foto.getHeight(), Image.SCALE_DEFAULT));
             foto.setIcon(icono);
-            
-            try{
-            String sql = "SELECT seccion FROM seccion WHERE codigo_seccion="+objeto.getSeccion();
-            PreparedStatement verDatos = con.conectar().prepareStatement(sql);
-            ResultSet ver = verDatos.executeQuery();
-            
+
+            try {
+                String sql = "SELECT seccion FROM seccion WHERE codigo_seccion=" + objeto.getSeccion();
+                PreparedStatement verDatos = con.conectar().prepareStatement(sql);
+                ResultSet ver = verDatos.executeQuery();
+
                 if (ver.next()) {
                     comboSeccion.setSelectedItem(ver.getString(1));
                 }
-             
-            
-            String sql1 = "SELECT nombre_proyecto FROM proyectos WHERE codigo_proyecto="+objeto.getProyecto();
-            PreparedStatement verDatos1 = con.conectar().prepareStatement(sql1);
-            ResultSet ver1 = verDatos1.executeQuery();
+
+                String sql1 = "SELECT nombre_proyecto FROM proyectos WHERE codigo_proyecto=" + objeto.getProyecto();
+                PreparedStatement verDatos1 = con.conectar().prepareStatement(sql1);
+                ResultSet ver1 = verDatos1.executeQuery();
                 if (ver1.next()) {
                     comboProyecto.setSelectedItem(ver1.getString(1));
                 }
-            
+
+            } catch (Exception e) {
+                System.out.println("Erro: " + e);
             }
-            catch(Exception e){
-                System.out.println("Erro: "+e);
-            }
-                   
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "Datos No Encontrados");
-        }  
-        int filas=modeloTabla2.getRowCount();
-        for (int i = 0; filas>i; i++) {
+        }
+        int filas = modeloTabla2.getRowCount();
+        for (int i = 0; filas > i; i++) {
             modeloTabla2.removeRow(0);
         }
-            setFilas2();
+        setFilas2();
     }//GEN-LAST:event_buscar2MouseClicked
     //Variable de tipo "file"
     File fichero;
@@ -1032,6 +1163,51 @@ public class formulario1 extends javax.swing.JFrame {
     private void comboProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboProyectoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboProyectoActionPerformed
+
+    private void codigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codigoKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_codigoKeyReleased
+
+    private void codigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codigoKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9')) {
+            evt.consume();
+        }
+
+    }//GEN-LAST:event_codigoKeyTyped
+
+    private void nombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isLetter(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            getToolkit().beep();
+            evt.consume();
+    }//GEN-LAST:event_nombreKeyTyped
+    }
+    private void añoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_añoKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_añoKeyTyped
+
+    private void costoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_costoKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9') && (car < ',' || car > '.')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_costoKeyTyped
+
+    private void fechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fechaKeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_fechaKeyTyped
 
     /**
      * @param args the command line arguments
