@@ -425,11 +425,23 @@ public class formulario1 extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(34, 166, 170));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        codigo1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                codigo1KeyTyped(evt);
+            }
+        });
         jPanel4.add(codigo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 100, 30));
 
         jLabel7.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
         jLabel7.setText("Codigo:");
         jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 30));
+
+        nombre1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nombre1KeyTyped(evt);
+            }
+        });
         jPanel4.add(nombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 150, 30));
 
         jLabel8.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
@@ -505,7 +517,19 @@ public class formulario1 extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
         jLabel9.setText("Carnet:");
         jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 30));
+
+        codigo2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                codigo2KeyTyped(evt);
+            }
+        });
         jPanel5.add(codigo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 100, 30));
+
+        nombre2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nombre2KeyTyped(evt);
+            }
+        });
         jPanel5.add(nombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 150, 30));
 
         jLabel10.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
@@ -515,6 +539,12 @@ public class formulario1 extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
         jLabel11.setText("Genero:");
         jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, 30));
+
+        apellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                apellidoKeyTyped(evt);
+            }
+        });
         jPanel5.add(apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 150, 30));
 
         jLabel12.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
@@ -527,6 +557,12 @@ public class formulario1 extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
         jLabel13.setText("Foto:");
         jPanel5.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, -1, 30));
+
+        correo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                correoKeyTyped(evt);
+            }
+        });
         jPanel5.add(correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 150, 30));
 
         foto.setText("Foto");
@@ -906,6 +942,7 @@ public class formulario1 extends javax.swing.JFrame {
             PreparedStatement verDatos1 = con.conectar().prepareStatement(sql1);
             ResultSet ver1 = verDatos1.executeQuery();
             if (ver1.next()) {
+                datos= ver1.getString(1);
                 ImageIcon icon = new ImageIcon(ver1.getString(1));
                 ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(foto.getWidth(), foto.getHeight(), Image.SCALE_DEFAULT));
                 foto.setIcon(icono);
@@ -964,10 +1001,14 @@ public class formulario1 extends javax.swing.JFrame {
         llenaComboBox();
         llenaComboBox2();
     }//GEN-LAST:event_actualizar2MouseClicked
-
+    File fichero;
+    String datos=String.valueOf(fichero);
     private void agregar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregar2MouseClicked
-
         // TODO add your handling code here:
+        System.out.println("Datos: "+datos);
+        if (codigo2.getText().isEmpty() || nombre2.getText().isEmpty() || apellido.getText().isEmpty() || correo.getText().isEmpty() || datos.equals("")) {
+            JOptionPane.showMessageDialog(this,"Error Campos Vacios");
+        }else{           
         MtoProyectos objeto = new MtoProyectos();
         objeto.setCarnet(Integer.parseInt(codigo2.getText()));
         objeto.setNombreI(nombre2.getText());
@@ -1013,7 +1054,7 @@ public class formulario1 extends javax.swing.JFrame {
             modeloTabla3.removeRow(0);
         }
         setFilas3();
-
+        }
     }//GEN-LAST:event_agregar2MouseClicked
 
     private void modificar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificar2MouseClicked
@@ -1134,7 +1175,7 @@ public class formulario1 extends javax.swing.JFrame {
         setFilas2();
     }//GEN-LAST:event_buscar2MouseClicked
     //Variable de tipo "file"
-    File fichero;
+    
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         int resultado;
@@ -1208,6 +1249,54 @@ public class formulario1 extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_fechaKeyTyped
+
+    private void codigo1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codigo1KeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_codigo1KeyTyped
+
+    private void nombre1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombre1KeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isLetter(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_nombre1KeyTyped
+
+    private void codigo2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codigo2KeyTyped
+        // TODO add your handling code here:
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_codigo2KeyTyped
+
+    private void nombre2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombre2KeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isLetter(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_nombre2KeyTyped
+
+    private void apellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_apellidoKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isLetter(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_apellidoKeyTyped
+
+    private void correoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_correoKeyTyped
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_correoKeyTyped
 
     /**
      * @param args the command line arguments
