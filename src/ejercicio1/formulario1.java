@@ -7,6 +7,7 @@ package ejercicio1;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,8 +34,8 @@ public class formulario1 extends javax.swing.JFrame {
         eliminar.setIcon(icono2);
         
         ImageIcon foto3 = new ImageIcon (getClass().getResource("/imagenes/guardar.png"));
-        ImageIcon icono3 = new ImageIcon(foto3.getImage().getScaledInstance(guardar.getWidth(),guardar.getHeight(),Image.SCALE_DEFAULT));
-        guardar.setIcon(icono3);
+        ImageIcon icono3 = new ImageIcon(foto3.getImage().getScaledInstance(buscar.getWidth(),buscar.getHeight(),Image.SCALE_DEFAULT));
+        buscar.setIcon(icono3);
         
     }
 
@@ -57,12 +58,12 @@ public class formulario1 extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        guardar = new javax.swing.JLabel();
+        nombre = new javax.swing.JTextField();
+        año = new javax.swing.JTextField();
+        costo = new javax.swing.JTextField();
+        fecha = new javax.swing.JTextField();
+        codigo = new javax.swing.JTextField();
+        buscar = new javax.swing.JLabel();
         agregar = new javax.swing.JLabel();
         modificar = new javax.swing.JLabel();
         eliminar = new javax.swing.JLabel();
@@ -118,19 +119,19 @@ public class formulario1 extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
         jLabel6.setText("Costo ($):");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 111, -1, 30));
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 150, 30));
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, 100, 30));
-        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, 100, 30));
-        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 150, 100, 30));
-        jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 100, 30));
+        jPanel1.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 150, 30));
+        jPanel1.add(año, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, 100, 30));
+        jPanel1.add(costo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, 100, 30));
+        jPanel1.add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 150, 100, 30));
+        jPanel1.add(codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 100, 30));
 
-        guardar.setText("Button1");
-        guardar.addMouseListener(new java.awt.event.MouseAdapter() {
+        buscar.setText("Button1");
+        buscar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                guardarMouseClicked(evt);
+                buscarMouseClicked(evt);
             }
         });
-        jPanel1.add(guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 200, 50, 50));
+        jPanel1.add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 200, 50, 50));
 
         agregar.setText("Button1");
         agregar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -198,6 +199,20 @@ public class formulario1 extends javax.swing.JFrame {
 
     private void agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregarMouseClicked
         // TODO add your handling code here:
+        MtoProyectos objeto = new MtoProyectos();
+        objeto.setCodigo(Integer.parseInt(codigo.getText()));
+        objeto.setNombre(nombre.getText());
+        objeto.setAnio(año.getText());
+        objeto.setCosto(Double.parseDouble(costo.getText()));
+        objeto.setFecha(fecha.getText());
+        
+        if (objeto.guardarProyecto()) {
+            JOptionPane.showMessageDialog(this, "Datos Guardados");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error");
+        }  
+
+      
     }//GEN-LAST:event_agregarMouseClicked
 
     private void modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificarMouseClicked
@@ -208,9 +223,9 @@ public class formulario1 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_eliminarMouseClicked
 
-    private void guardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guardarMouseClicked
+    private void buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buscarMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_guardarMouseClicked
+    }//GEN-LAST:event_buscarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -249,8 +264,12 @@ public class formulario1 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel agregar;
+    private javax.swing.JTextField año;
+    private javax.swing.JLabel buscar;
+    private javax.swing.JTextField codigo;
+    private javax.swing.JTextField costo;
     private javax.swing.JLabel eliminar;
-    private javax.swing.JLabel guardar;
+    private javax.swing.JTextField fecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -263,11 +282,7 @@ public class formulario1 extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JLabel modificar;
+    private javax.swing.JTextField nombre;
     // End of variables declaration//GEN-END:variables
 }
