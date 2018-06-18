@@ -14,6 +14,8 @@ import java.sql.ResultSet;
  * @author steve
  */
 public class MtoProyectos {
+
+   
     
     private Connection cn;
     private Integer codigo;
@@ -21,10 +23,40 @@ public class MtoProyectos {
     private String anio;
     private Double costo;
     private String fecha;
+    
+    private Integer codigoS;
+    private String nombreS;
     //Creamos la conexion a la base de datos
     public MtoProyectos(){
         Conexion con = new Conexion();
         cn= con.conectar();
+    }
+     /**
+     * @return the codigoS
+     */
+    public Integer getCodigoS() {
+        return codigoS;
+    }
+
+    /**
+     * @param codigoS the codigoS to set
+     */
+    public void setCodigoS(Integer codigoS) {
+        this.codigoS = codigoS;
+    }
+
+    /**
+     * @return the nombreS
+     */
+    public String getNombreS() {
+        return nombreS;
+    }
+
+    /**
+     * @param nombreS the nombreS to set
+     */
+    public void setNombreS(String nombreS) {
+        this.nombreS = nombreS;
     }
     
     /**
@@ -213,6 +245,106 @@ public class MtoProyectos {
                 anio = rs.getString(3);
                 costo = rs.getDouble(4);
                 fecha = rs.getString(5);
+            }
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return resp;
+    }
+    
+    public boolean guardarSeccion(){
+        boolean resp = false;
+        try {
+            String sql = "INSERT INTO seccion (codigo_seccion, seccion) VALUES(?, ?)";
+          
+            //Se pasan por referencia por seguridad
+            //importar clase PreparedStatement
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            //Llenar los parametros de la clase, se coloca en el ordne de la tabla
+            cmd.setInt(1, codigoS);//codigo es como se definio en la clase aunque en la base se llama codigo_proyecto
+            cmd.setString(2, nombreS);
+            //Si da error devuelve 1, caso contrario 0
+            if (!cmd.execute()) {
+                resp=true;
+                
+            }
+            //Cerrando conexion
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return resp;
+    }
+    
+    public boolean modificarSeccion(){
+        boolean resp= false;
+        try {
+            String sql = "UPDATE seccion SET seccion=? WHERE codigo_seccion=?;";
+          
+            //Se pasan por referencia por seguridad
+            //importar clase PreparedStatement
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            //Llenar los parametros de la clase, se coloca en el ordne de la tabla
+            cmd.setString(1, nombreS);//codigo es como se definio en la clase aunque en la base se llama codigo_proyecto
+            cmd.setInt(2,codigoS);
+            //Si da error devuelve 1, caso contrario 0
+            if (!cmd.execute()) {
+                resp=true;
+            }
+            //Cerrando conexion
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return resp;
+    }
+    
+    public boolean eliminarSeccion(){
+        boolean resp = false;
+        try {
+            String sql = "DELETE FROM seccion WHERE codigo_seccion=?;";
+          
+            //Se pasan por referencia por seguridad
+            //importar clase PreparedStatement
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            //Llenar los parametros de la clase, se coloca en el ordne de la tabla
+            cmd.setInt(1, codigoS);
+            //Si da error devuelve 1, caso contrario 0
+            if (!cmd.execute()) {
+                resp=true;
+            }
+            //Cerrando conexion
+            cmd.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return resp;
+    }
+    
+    public boolean consultarSeccion(){
+        boolean resp= false;
+        try {
+             String sql = "SELECT codigo_seccion, seccion FROM seccion WHERE codigo_seccion=?";
+          
+            //Se pasan por referencia por seguridad
+            //importar clase PreparedStatement
+            PreparedStatement cmd = cn.prepareStatement(sql);
+            //Llenar los parametros de la clase, se coloca en el ordne de la tabla
+            cmd.setInt(1, codigoS);
+            //Importar clase resultset
+            ResultSet rs= cmd.executeQuery();
+            //Recorrer la lista de registro
+            if (rs.next()) {
+                resp = true;
+                //asignandole a los atributos de la clase 
+                codigoS = rs.getInt(1);
+                nombreS = rs.getString(2);
+                
             }
             cmd.close();
             cn.close();

@@ -9,7 +9,10 @@ import java.awt.Image;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import java.io.File;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,11 +25,14 @@ public class formulario1 extends javax.swing.JFrame {
      * Creates new form formulario1
      */
     DefaultTableModel modeloTabla;
+    DefaultTableModel modeloTabla2;
     Conexion con= new Conexion();
     public formulario1() {
         
         modeloTabla= new DefaultTableModel(null, getColumnas());
         setFilas();
+        modeloTabla2= new DefaultTableModel(null, getColumnas2());
+        setFilas2();
         
         initComponents();
         setLocationRelativeTo(null);
@@ -51,6 +57,18 @@ public class formulario1 extends javax.swing.JFrame {
         ImageIcon icono4 = new ImageIcon(foto4.getImage().getScaledInstance(actualizar.getWidth(),actualizar.getHeight(),Image.SCALE_DEFAULT));
         actualizar.setIcon(icono4);
         
+      
+        agregar1.setIcon(icono); 
+        modificar1.setIcon(icono1);
+        eliminar1.setIcon(icono2);
+        buscar1.setIcon(icono3);
+        actualizar1.setIcon(icono4);
+        
+        agregar2.setIcon(icono); 
+        modificar2.setIcon(icono1);
+        eliminar2.setIcon(icono2);
+        buscar2.setIcon(icono3);
+        actualizar2.setIcon(icono4);
     }
     private String[] getColumnas(){
         String columnas[] = new String[]{"CODIGO","NOMBRE","AÑO","COSTO","FECHA REGISTRO"};
@@ -70,6 +88,32 @@ public class formulario1 extends javax.swing.JFrame {
                         datos[i]= resultado.getObject(i+1);
                     }
                     modeloTabla.addRow(datos);
+                }
+        }
+        catch(Exception e){
+            
+                
+            }
+            
+        }
+    private String[] getColumnas2(){
+        String columnas[] = new String[]{"CODIGO","NOMBRE"};
+        return columnas;
+    }
+    private void setFilas2(){
+        try{
+            String consulta = "SELECT codigo_seccion, seccion FROM seccion";
+            
+                PreparedStatement us = con.conectar().prepareStatement(consulta);
+                ResultSet resultado = us.executeQuery();
+                
+                Object datos[]= new Object[2];
+                
+                while(resultado.next()){
+                    for (int i = 0; i <datos.length; i++) {
+                        datos[i]= resultado.getObject(i+1);
+                    }
+                    modeloTabla2.addRow(datos);
                 }
         }
         catch(Exception e){
@@ -111,6 +155,44 @@ public class formulario1 extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         actualizar = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        codigo1 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        nombre1 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        actualizar1 = new javax.swing.JLabel();
+        agregar1 = new javax.swing.JLabel();
+        modificar1 = new javax.swing.JLabel();
+        eliminar1 = new javax.swing.JLabel();
+        buscar1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        codigo2 = new javax.swing.JTextField();
+        nombre2 = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        apellido = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        correo = new javax.swing.JTextField();
+        foto = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jLabel16 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel17 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        actualizar2 = new javax.swing.JLabel();
+        agregar2 = new javax.swing.JLabel();
+        modificar2 = new javax.swing.JLabel();
+        eliminar2 = new javax.swing.JLabel();
+        buscar2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -224,6 +306,196 @@ public class formulario1 extends javax.swing.JFrame {
         jPanel3.add(actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, 50, 50));
 
         jTabbedPane1.addTab("Proyectos", jPanel3);
+
+        jPanel4.setBackground(new java.awt.Color(34, 166, 170));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel4.add(codigo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 100, 30));
+
+        jLabel7.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel7.setText("Codigo:");
+        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 30));
+        jPanel4.add(nombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 150, 30));
+
+        jLabel8.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel8.setText("Nombre:");
+        jPanel4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, -1, 30));
+
+        actualizar1.setText("Button1");
+        actualizar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                actualizar1MouseClicked(evt);
+            }
+        });
+        jPanel4.add(actualizar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 50, 50));
+
+        agregar1.setText("Button1");
+        agregar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                agregar1MouseClicked(evt);
+            }
+        });
+        jPanel4.add(agregar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 50, 50));
+
+        modificar1.setText("Button1");
+        modificar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                modificar1MouseClicked(evt);
+            }
+        });
+        jPanel4.add(modificar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, 50, 50));
+
+        eliminar1.setText("Button1");
+        eliminar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                eliminar1MouseClicked(evt);
+            }
+        });
+        jPanel4.add(eliminar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 50, 50));
+
+        buscar1.setText("Button1");
+        buscar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buscar1MouseClicked(evt);
+            }
+        });
+        jPanel4.add(buscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 60, 50, 50));
+
+        jButton2.setText("Limpiar Campos");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 30, 130, 50));
+
+        jTable3.setBackground(new java.awt.Color(204, 255, 255));
+        jTable3.setModel(modeloTabla2);
+        jTable3.setGridColor(new java.awt.Color(102, 102, 102));
+        jTable3.setSelectionForeground(new java.awt.Color(13, 51, 62));
+        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable3MouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTable3);
+
+        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 300, 190));
+
+        jTabbedPane1.addTab("Secciones", jPanel4);
+
+        jPanel5.setBackground(new java.awt.Color(34, 166, 170));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel9.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel9.setText("Carnet:");
+        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 30));
+        jPanel5.add(codigo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 100, 30));
+        jPanel5.add(nombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 150, 30));
+
+        jLabel10.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel10.setText("Nombre:");
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 30));
+
+        jLabel11.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel11.setText("Genero:");
+        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, 30));
+        jPanel5.add(apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 150, 30));
+
+        jLabel12.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel12.setText("Apellido:");
+        jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 30));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
+        jPanel5.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 100, 30));
+
+        jLabel13.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel13.setText("Foto:");
+        jPanel5.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, -1, 30));
+        jPanel5.add(correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 150, 30));
+
+        foto.setText("Foto");
+        jPanel5.add(foto, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 100, 100));
+
+        jLabel15.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel15.setText("Proyecto:");
+        jPanel5.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 50, -1, 30));
+
+        jButton3.setText("Examinar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, -1, -1));
+
+        jLabel16.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel16.setText("Correo:");
+        jPanel5.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, 30));
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel5.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, 100, 30));
+
+        jLabel17.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel17.setText("Seccion:");
+        jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, -1, 30));
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel5.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 100, 30));
+
+        jTable4.setBackground(new java.awt.Color(204, 255, 255));
+        jTable4.setModel(modeloTabla2);
+        jTable4.setGridColor(new java.awt.Color(102, 102, 102));
+        jTable4.setSelectionForeground(new java.awt.Color(13, 51, 62));
+        jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable4MouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jTable4);
+
+        jPanel5.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 430, 190));
+
+        actualizar2.setText("Button1");
+        actualizar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                actualizar2MouseClicked(evt);
+            }
+        });
+        jPanel5.add(actualizar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 180, 50, 50));
+
+        agregar2.setText("Button1");
+        agregar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                agregar2MouseClicked(evt);
+            }
+        });
+        jPanel5.add(agregar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 240, 50, 50));
+
+        modificar2.setText("Button1");
+        modificar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                modificar2MouseClicked(evt);
+            }
+        });
+        jPanel5.add(modificar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 240, 50, 50));
+
+        eliminar2.setText("Button1");
+        eliminar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                eliminar2MouseClicked(evt);
+            }
+        });
+        jPanel5.add(eliminar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 300, 50, 50));
+
+        buscar2.setText("Button1");
+        buscar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buscar2MouseClicked(evt);
+            }
+        });
+        jPanel5.add(buscar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 300, 50, 50));
+
+        jTabbedPane1.addTab("Integrantes", jPanel5);
 
         jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 400));
 
@@ -354,6 +626,157 @@ public class formulario1 extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jTable2MouseClicked
 
+    private void actualizar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizar1MouseClicked
+        // TODO add your handling code here:
+        int filas=modeloTabla2.getRowCount();
+                for (int i = 0; filas>i; i++) {
+                    modeloTabla2.removeRow(0);
+                }
+                    setFilas2();
+    }//GEN-LAST:event_actualizar1MouseClicked
+
+    private void agregar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregar1MouseClicked
+        // TODO add your handling code here:
+        MtoProyectos objeto = new MtoProyectos();
+        objeto.setCodigoS(Integer.parseInt(codigo1.getText()));
+        objeto.setNombreS(nombre1.getText());
+        
+        if (objeto.guardarSeccion()) {
+            JOptionPane.showMessageDialog(this, "Datos Guardados");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error");
+        }  
+        int filas=modeloTabla2.getRowCount();
+                for (int i = 0; filas>i; i++) {
+                    modeloTabla2.removeRow(0);
+                }
+                    setFilas2();
+    }//GEN-LAST:event_agregar1MouseClicked
+
+    private void modificar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificar1MouseClicked
+        // TODO add your handling code here:
+        MtoProyectos objeto = new MtoProyectos();
+        objeto.setCodigoS(Integer.parseInt(codigo1.getText()));
+        objeto.setNombreS(nombre1.getText());
+        
+        if (objeto.modificarSeccion()) {
+            JOptionPane.showMessageDialog(this, "Datos Modificados");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error");
+        }  
+        int filas=modeloTabla2.getRowCount();
+                for (int i = 0; filas>i; i++) {
+                    modeloTabla2.removeRow(0);
+                }
+                    setFilas2();
+    }//GEN-LAST:event_modificar1MouseClicked
+
+    private void eliminar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar1MouseClicked
+        // TODO add your handling code here:
+        MtoProyectos objeto = new MtoProyectos();
+        objeto.setCodigoS(Integer.valueOf(codigo1.getText()));
+        int eliminar= JOptionPane.showConfirmDialog(this, "¿Estas seguro de eliminar esta seccion", "Atencion", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if (eliminar==0) {
+           if (objeto.eliminarSeccion()) {
+            JOptionPane.showMessageDialog(this, "Datos Eliminados");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error");
+        }  
+        }
+        int filas=modeloTabla2.getRowCount();
+                for (int i = 0; filas>i; i++) {
+                    modeloTabla2.removeRow(0);
+                }
+                    setFilas2();
+    }//GEN-LAST:event_eliminar1MouseClicked
+
+    private void buscar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buscar1MouseClicked
+        // TODO add your handling code here:
+        MtoProyectos objeto = new MtoProyectos();
+        objeto.setCodigoS(Integer.valueOf(codigo1.getText()));
+        
+        if (objeto.consultarSeccion()) {
+            nombre1.setText(""+objeto.getNombreS());
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Datos No Encontrados");
+        }  
+        int filas=modeloTabla2.getRowCount();
+        for (int i = 0; filas>i; i++) {
+            modeloTabla2.removeRow(0);
+        }
+            setFilas2();
+    }//GEN-LAST:event_buscar1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        codigo1.setText(null);
+        nombre1.setText(null);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
+        // TODO add your handling code here:
+        codigo1.setText(String.valueOf(modeloTabla2.getValueAt(jTable3.getSelectedRow(),0)));
+        nombre1.setText(String.valueOf(modeloTabla2.getValueAt(jTable3.getSelectedRow(),1)));
+    }//GEN-LAST:event_jTable3MouseClicked
+
+    private void jTable4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable4MouseClicked
+
+    private void actualizar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizar2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_actualizar2MouseClicked
+
+    private void agregar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregar2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_agregar2MouseClicked
+
+    private void modificar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificar2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_modificar2MouseClicked
+
+    private void eliminar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eliminar2MouseClicked
+
+    private void buscar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buscar2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscar2MouseClicked
+    File fichero;
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        int resultado;
+
+        CargarFoto ventana = new CargarFoto();
+
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("JPG y PNG", "jpg", "png");
+
+        ventana.jfchCargarfoto.setFileFilter(filtro);
+
+        resultado = ventana.jfchCargarfoto.showOpenDialog(null);
+
+        if (JFileChooser.APPROVE_OPTION == resultado) {
+
+            fichero = ventana.jfchCargarfoto.getSelectedFile();
+
+            try {
+
+                ImageIcon icon = new ImageIcon(fichero.toString());
+
+                ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(foto.getWidth(), foto.getHeight(), Image.SCALE_DEFAULT));
+
+                foto.setIcon(icono);
+
+            } catch (Exception ex) {
+
+                JOptionPane.showMessageDialog(null, "Error abriendo la imagen " + ex);
+
+            }
+
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -391,29 +814,67 @@ public class formulario1 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel actualizar;
+    private javax.swing.JLabel actualizar1;
+    private javax.swing.JLabel actualizar2;
     private javax.swing.JLabel agregar;
+    private javax.swing.JLabel agregar1;
+    private javax.swing.JLabel agregar2;
+    private javax.swing.JTextField apellido;
     private javax.swing.JTextField año;
     private javax.swing.JLabel buscar;
+    private javax.swing.JLabel buscar1;
+    private javax.swing.JLabel buscar2;
     private javax.swing.JTextField codigo;
+    private javax.swing.JTextField codigo1;
+    private javax.swing.JTextField codigo2;
+    private javax.swing.JTextField correo;
     private javax.swing.JTextField costo;
     private javax.swing.JLabel eliminar;
+    private javax.swing.JLabel eliminar1;
+    private javax.swing.JLabel eliminar2;
     private javax.swing.JTextField fecha;
+    private javax.swing.JLabel foto;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     private javax.swing.JLabel modificar;
+    private javax.swing.JLabel modificar1;
+    private javax.swing.JLabel modificar2;
     private javax.swing.JTextField nombre;
+    private javax.swing.JTextField nombre1;
+    private javax.swing.JTextField nombre2;
     // End of variables declaration//GEN-END:variables
 }
