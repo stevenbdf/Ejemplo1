@@ -6,8 +6,11 @@
 package ejercicio1;
 
 import java.awt.Image;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,9 +21,16 @@ public class formulario1 extends javax.swing.JFrame {
     /**
      * Creates new form formulario1
      */
+    DefaultTableModel modeloTabla;
+    Conexion con= new Conexion();
     public formulario1() {
+        
+        modeloTabla= new DefaultTableModel(null, getColumnas());
+        setFilas();
+        
         initComponents();
         setLocationRelativeTo(null);
+        
         ImageIcon foto = new ImageIcon (getClass().getResource("/imagenes/agregar.png"));
         ImageIcon icono = new ImageIcon(foto.getImage().getScaledInstance(agregar.getWidth(),agregar.getHeight(),Image.SCALE_DEFAULT));
         agregar.setIcon(icono);
@@ -37,8 +47,38 @@ public class formulario1 extends javax.swing.JFrame {
         ImageIcon icono3 = new ImageIcon(foto3.getImage().getScaledInstance(buscar.getWidth(),buscar.getHeight(),Image.SCALE_DEFAULT));
         buscar.setIcon(icono3);
         
+        ImageIcon foto4 = new ImageIcon (getClass().getResource("/imagenes/actualizar.png"));
+        ImageIcon icono4 = new ImageIcon(foto4.getImage().getScaledInstance(actualizar.getWidth(),actualizar.getHeight(),Image.SCALE_DEFAULT));
+        actualizar.setIcon(icono4);
+        
     }
-
+    private String[] getColumnas(){
+        String columnas[] = new String[]{"CODIGO","NOMBRE","AÑO","COSTO","FECHA REGISTRO"};
+        return columnas;
+    }
+    private void setFilas(){
+        try{
+            String consulta = "SELECT codigo_proyecto, nombre_proyecto, anio_creacion, costo, fecha_creacion FROM proyectos";
+            
+                PreparedStatement us = con.conectar().prepareStatement(consulta);
+                ResultSet resultado = us.executeQuery();
+                
+                Object datos[]= new Object[5];
+                
+                while(resultado.next()){
+                    for (int i = 0; i <datos.length; i++) {
+                        datos[i]= resultado.getObject(i+1);
+                    }
+                    modeloTabla.addRow(datos);
+                }
+        }
+        catch(Exception e){
+            
+                
+            }
+            
+        }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,8 +91,8 @@ public class formulario1 extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -69,6 +109,10 @@ public class formulario1 extends javax.swing.JFrame {
         eliminar = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        actualizar = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -85,9 +129,105 @@ public class formulario1 extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestion de Proyectos");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(34, 166, 170));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel3.setBackground(new java.awt.Color(34, 166, 170));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel2.setText("Fecha Registro:");
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, -1, 30));
+
+        jLabel3.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel3.setText("Codigo:");
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 30));
+
+        jLabel4.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel4.setText("Nombre:");
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 30));
+
+        jLabel5.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel5.setText("Año:");
+        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, 30));
+
+        jLabel6.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
+        jLabel6.setText("Costo ($):");
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, 30));
+        jPanel3.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 150, 30));
+        jPanel3.add(año, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 100, 30));
+        jPanel3.add(costo, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 100, 30));
+        jPanel3.add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, 100, 30));
+        jPanel3.add(codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 100, 30));
+
+        buscar.setText("Button1");
+        buscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buscarMouseClicked(evt);
+            }
+        });
+        jPanel3.add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 100, 50, 50));
+
+        agregar.setText("Button1");
+        agregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                agregarMouseClicked(evt);
+            }
+        });
+        jPanel3.add(agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 50, 50));
+
+        modificar.setText("Button1");
+        modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                modificarMouseClicked(evt);
+            }
+        });
+        jPanel3.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 100, 50, 50));
+
+        eliminar.setText("Button1");
+        eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                eliminarMouseClicked(evt);
+            }
+        });
+        jPanel3.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 50, 50));
+
+        jTable2.setBackground(new java.awt.Color(204, 255, 255));
+        jTable2.setModel(modeloTabla );
+        jTable2.setGridColor(new java.awt.Color(102, 102, 102));
+        jTable2.setSelectionForeground(new java.awt.Color(13, 51, 62));
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+
+        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, 530, 190));
+
+        jButton1.setText("Limpiar Campos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 20, 130, 50));
+
+        actualizar.setText("Button1");
+        actualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                actualizarMouseClicked(evt);
+            }
+        });
+        jPanel3.add(actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, 50, 50));
+
+        jTabbedPane1.addTab("Proyectos", jPanel3);
+
+        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 400));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 670, 396));
 
         jPanel2.setBackground(new java.awt.Color(13, 51, 62));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -96,103 +236,9 @@ public class formulario1 extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(182, 189, 11));
         jLabel1.setText("Gestion de Proyectos");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, -1, 70));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, -1, 70));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 90));
-
-        jLabel2.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
-        jLabel2.setText("Fecha Registro:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 150, -1, 30));
-
-        jLabel3.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
-        jLabel3.setText("Codigo:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, 30));
-
-        jLabel4.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
-        jLabel4.setText("Nombre:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, 30));
-
-        jLabel5.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
-        jLabel5.setText("Año:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, -1, 30));
-
-        jLabel6.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
-        jLabel6.setText("Costo ($):");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 111, -1, 30));
-        jPanel1.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 150, 30));
-        jPanel1.add(año, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, 100, 30));
-        jPanel1.add(costo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, 100, 30));
-        jPanel1.add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 150, 100, 30));
-        jPanel1.add(codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 100, 30));
-
-        buscar.setText("Button1");
-        buscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                buscarMouseClicked(evt);
-            }
-        });
-        jPanel1.add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 200, 50, 50));
-
-        agregar.setText("Button1");
-        agregar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                agregarMouseClicked(evt);
-            }
-        });
-        jPanel1.add(agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 50, 50));
-
-        modificar.setText("Button1");
-        modificar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                modificarMouseClicked(evt);
-            }
-        });
-        jPanel1.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 50, 50));
-
-        eliminar.setText("Button1");
-        eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                eliminarMouseClicked(evt);
-            }
-        });
-        jPanel1.add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 200, 50, 50));
-
-        jTable2.setBackground(new java.awt.Color(204, 255, 255));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Nombre", "Año", "Costo"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable2.setGridColor(new java.awt.Color(102, 102, 102));
-        jTable2.setSelectionForeground(new java.awt.Color(13, 51, 62));
-        jScrollPane2.setViewportView(jTable2);
-
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, 530, 200));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 90));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -211,21 +257,102 @@ public class formulario1 extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Error");
         }  
-
-      
+        int filas=modeloTabla.getRowCount();
+                for (int i = 0; filas>i; i++) {
+                    modeloTabla.removeRow(0);
+                }
+                    setFilas();
     }//GEN-LAST:event_agregarMouseClicked
 
     private void modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificarMouseClicked
         // TODO add your handling code here:
+        MtoProyectos objeto = new MtoProyectos();
+        objeto.setCodigo(Integer.parseInt(codigo.getText()));
+        objeto.setNombre(nombre.getText());
+        objeto.setAnio(año.getText());
+        objeto.setCosto(Double.parseDouble(costo.getText()));
+        objeto.setFecha(fecha.getText());
+        
+        if (objeto.modificarProyecto()) {
+            JOptionPane.showMessageDialog(this, "Datos Modificados");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error");
+        } 
+        int filas=modeloTabla.getRowCount();
+        for (int i = 0; filas>i; i++) {
+            modeloTabla.removeRow(0);
+        }
+            setFilas();
     }//GEN-LAST:event_modificarMouseClicked
 
     private void eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarMouseClicked
         // TODO add your handling code here:
+        MtoProyectos objeto = new MtoProyectos();
+        objeto.setCodigo(Integer.valueOf(codigo.getText()));
+        int eliminar= JOptionPane.showConfirmDialog(this, "¿Estas seguro de eliminar este proyecto", "Atencion", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if (eliminar==0) {
+           if (objeto.eliminarProyecto()) {
+            JOptionPane.showMessageDialog(this, "Datos Eliminados");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error");
+        }  
+        }
+        int filas=modeloTabla.getRowCount();
+        for (int i = 0; filas>i; i++) {
+            modeloTabla.removeRow(0);
+        }
+            setFilas();
     }//GEN-LAST:event_eliminarMouseClicked
 
     private void buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buscarMouseClicked
         // TODO add your handling code here:
+        MtoProyectos objeto = new MtoProyectos();
+        objeto.setCodigo(Integer.valueOf(codigo.getText()));
+        
+        if (objeto.consultarProyecto()) {
+            nombre.setText(""+objeto.getNombre());
+            año.setText(""+objeto.getAnio());
+            costo.setText(""+objeto.getCosto());
+            fecha.setText(""+objeto.getFecha());
+        } else {
+            JOptionPane.showMessageDialog(this, "Datos No Encontrados");
+        }  
+        int filas=modeloTabla.getRowCount();
+        for (int i = 0; filas>i; i++) {
+            modeloTabla.removeRow(0);
+        }
+            setFilas();
     }//GEN-LAST:event_buscarMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        codigo.setText(null);
+        nombre.setText(null);
+        año.setText(null);
+        costo.setText(null);
+        fecha.setText(null);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void actualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizarMouseClicked
+        // TODO add your handling code here:
+        int filas=modeloTabla.getRowCount();
+        for (int i = 0; filas>i; i++) {
+            modeloTabla.removeRow(0);
+        }
+            setFilas();
+        
+    }//GEN-LAST:event_actualizarMouseClicked
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+        codigo.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(),0)));
+        nombre.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(),1)));
+        año.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(),2)));
+        costo.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(),3)));
+        fecha.setText(String.valueOf(modeloTabla.getValueAt(jTable2.getSelectedRow(),4)));
+        
+        
+    }//GEN-LAST:event_jTable2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -263,6 +390,7 @@ public class formulario1 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel actualizar;
     private javax.swing.JLabel agregar;
     private javax.swing.JTextField año;
     private javax.swing.JLabel buscar;
@@ -270,6 +398,7 @@ public class formulario1 extends javax.swing.JFrame {
     private javax.swing.JTextField costo;
     private javax.swing.JLabel eliminar;
     private javax.swing.JTextField fecha;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -278,8 +407,10 @@ public class formulario1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JLabel modificar;
