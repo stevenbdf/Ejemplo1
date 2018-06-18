@@ -15,8 +15,7 @@ import java.sql.ResultSet;
  */
 public class MtoProyectos {
 
-   
-    
+    //Variables para Proyectos
     private Connection cn;
     private Integer codigo;
     private String nombre;
@@ -24,13 +23,138 @@ public class MtoProyectos {
     private Double costo;
     private String fecha;
     
+    //Variables para seccion
     private Integer codigoS;
     private String nombreS;
+    
+    //Variables para integrantes
+    private Integer carnet;
+    private String nombreI;
+    private String apellidoI;
+    private String genero;
+    private String correo;
+    private String foto;
+    private Integer seccion;
+    private Integer proyecto;
+    
     //Creamos la conexion a la base de datos
     public MtoProyectos(){
         Conexion con = new Conexion();
         cn= con.conectar();
     }
+    
+    /**
+     * @return the carnet
+     */
+    public Integer getCarnet() {
+        return carnet;
+    }
+
+    /**
+     * @param carnet the carnet to set
+     */
+    public void setCarnet(Integer carnet) {
+        this.carnet = carnet;
+    }
+
+    /**
+     * @return the nombreI
+     */
+    public String getNombreI() {
+        return nombreI;
+    }
+
+    /**
+     * @param nombreI the nombreI to set
+     */
+    public void setNombreI(String nombreI) {
+        this.nombreI = nombreI;
+    }
+
+    /**
+     * @return the apellidoI
+     */
+    public String getApellidoI() {
+        return apellidoI;
+    }
+
+    /**
+     * @param apellidoI the apellidoI to set
+     */
+    public void setApellidoI(String apellidoI) {
+        this.apellidoI = apellidoI;
+    }
+
+    /**
+     * @return the genero
+     */
+    public String getGenero() {
+        return genero;
+    }
+
+    /**
+     * @param genero the genero to set
+     */
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    /**
+     * @return the correo
+     */
+    public String getCorreo() {
+        return correo;
+    }
+
+    /**
+     * @param correo the correo to set
+     */
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    /**
+     * @return the foto
+     */
+    public String getFoto() {
+        return foto;
+    }
+
+    /**
+     * @param foto the foto to set
+     */
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    /**
+     * @return the seccion
+     */
+    public Integer getSeccion() {
+        return seccion;
+    }
+
+    /**
+     * @param seccion the seccion to set
+     */
+    public void setSeccion(Integer seccion) {
+        this.seccion = seccion;
+    }
+
+    /**
+     * @return the proyecto
+     */
+    public Integer getProyecto() {
+        return proyecto;
+    }
+
+    /**
+     * @param proyecto the proyecto to set
+     */
+    public void setProyecto(Integer proyecto) {
+        this.proyecto = proyecto;
+    }
+    
      /**
      * @return the codigoS
      */
@@ -348,6 +472,16 @@ public class MtoProyectos {
             }
             cmd.close();
             cn.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return resp;
+    }
+    
+    public boolean guardarIntegrantes(){
+        boolean resp= false;
+        try {
+            
         } catch (Exception e) {
             System.out.println(e.toString());
         }

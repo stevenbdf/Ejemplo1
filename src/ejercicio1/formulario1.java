@@ -12,6 +12,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import java.io.File;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,6 +31,10 @@ public class formulario1 extends javax.swing.JFrame {
      */
     DefaultTableModel modeloTabla;
     DefaultTableModel modeloTabla2;
+    DefaultTableModel modeloTabla3;
+    DefaultComboBoxModel modeloCombo;
+    DefaultComboBoxModel modeloCombo2;
+    
     Conexion con= new Conexion();
     public formulario1() {
         
@@ -33,8 +42,15 @@ public class formulario1 extends javax.swing.JFrame {
         setFilas();
         modeloTabla2= new DefaultTableModel(null, getColumnas2());
         setFilas2();
+        modeloTabla3= new DefaultTableModel(null, getColumnas3());
+        setFilas3();
+        
+        modeloCombo = new DefaultComboBoxModel(new String [] {});
+        modeloCombo2 = new DefaultComboBoxModel(new String [] {});
         
         initComponents();
+        llenaComboBox();
+        llenaComboBox2();
         setLocationRelativeTo(null);
         
         ImageIcon foto = new ImageIcon (getClass().getResource("/imagenes/agregar.png"));
@@ -70,10 +86,50 @@ public class formulario1 extends javax.swing.JFrame {
         buscar2.setIcon(icono3);
         actualizar2.setIcon(icono4);
     }
+    
+    private void llenaComboBox() {
+        modeloCombo.removeAllElements();
+        try {
+            
+            /* Realizamos la consulta a la base de datos*/
+            String sql = "SELECT seccion FROM seccion";  
+            PreparedStatement verDatos = con.conectar().prepareStatement(sql);
+            ResultSet ver = verDatos.executeQuery(); 
+            while (ver.next()) {
+              
+                modeloCombo.addElement(ver.getObject("seccion"));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error: "+ex);
+
+        }
+    }
+    
+    private void llenaComboBox2() {
+        modeloCombo2.removeAllElements();
+        try {
+            
+            /* Realizamos la consulta a la base de datos*/
+            String sql = "SELECT nombre_proyecto FROM proyectos";  
+            PreparedStatement verDatos = con.conectar().prepareStatement(sql);
+            ResultSet ver = verDatos.executeQuery(); 
+            while (ver.next()) {
+              
+                modeloCombo2.addElement(ver.getObject("nombre_proyecto"));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error: "+ex);
+
+        }
+    }
+    
     private String[] getColumnas(){
         String columnas[] = new String[]{"CODIGO","NOMBRE","AÑO","COSTO","FECHA REGISTRO"};
         return columnas;
     }
+    
     private void setFilas(){
         try{
             String consulta = "SELECT codigo_proyecto, nombre_proyecto, anio_creacion, costo, fecha_creacion FROM proyectos";
@@ -122,6 +178,36 @@ public class formulario1 extends javax.swing.JFrame {
             }
             
         }
+    private String[] getColumnas3(){
+        String columnas[] = new String[]{"CARNET","NOMBRE","APELLIDO","GENERO","CORREO","SECCION","PROYECTO"};
+        return columnas;
+    }
+    private void setFilas3(){
+        try{
+            String consulta = "SELECT carnet, nombres, apellidos, genero, correo, seccion.seccion,proyectos.nombre_proyecto "
+                    + " FROM proyectos, seccion, integrantes "
+                    + "WHERE integrantes.codigo_proyecto=proyectos.codigo_proyecto AND integrantes.codigo_seccion=seccion.codigo_seccion ";
+            
+            
+                PreparedStatement us = con.conectar().prepareStatement(consulta);
+                ResultSet resultado = us.executeQuery();
+                
+                Object datos[]= new Object[7];
+                
+                while(resultado.next()){
+                    for (int i = 0; i <datos.length; i++) {
+                        datos[i]= resultado.getObject(i+1);
+                    }
+                    modeloTabla3.addRow(datos);
+                }
+        }
+        catch(Exception e){
+            
+                
+            }
+            
+        }
+   
         
     /**
      * This method is called from within the constructor to initialize the form.
@@ -183,9 +269,9 @@ public class formulario1 extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        comboProyecto = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        comboSeccion = new javax.swing.JComboBox<>();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
         actualizar2 = new javax.swing.JLabel();
@@ -432,18 +518,28 @@ public class formulario1 extends javax.swing.JFrame {
         jLabel16.setText("Correo:");
         jPanel5.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, 30));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel5.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, 100, 30));
+        comboProyecto.setModel(modeloCombo2);
+        comboProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboProyectoActionPerformed(evt);
+            }
+        });
+        jPanel5.add(comboProyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, 100, 30));
 
         jLabel17.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 18)); // NOI18N
         jLabel17.setText("Seccion:");
         jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, -1, 30));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel5.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 100, 30));
+        comboSeccion.setModel(modeloCombo);
+        comboSeccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboSeccionActionPerformed(evt);
+            }
+        });
+        jPanel5.add(comboSeccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 100, 30));
 
         jTable4.setBackground(new java.awt.Color(204, 255, 255));
-        jTable4.setModel(modeloTabla2);
+        jTable4.setModel(modeloTabla3);
         jTable4.setGridColor(new java.awt.Color(102, 102, 102));
         jTable4.setSelectionForeground(new java.awt.Color(13, 51, 62));
         jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -453,7 +549,7 @@ public class formulario1 extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(jTable4);
 
-        jPanel5.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 430, 190));
+        jPanel5.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 500, 190));
 
         actualizar2.setText("Button1");
         actualizar2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -461,7 +557,7 @@ public class formulario1 extends javax.swing.JFrame {
                 actualizar2MouseClicked(evt);
             }
         });
-        jPanel5.add(actualizar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 180, 50, 50));
+        jPanel5.add(actualizar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 190, 50, 50));
 
         agregar2.setText("Button1");
         agregar2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -726,6 +822,7 @@ public class formulario1 extends javax.swing.JFrame {
 
     private void actualizar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizar2MouseClicked
         // TODO add your handling code here:
+        llenaComboBox();
     }//GEN-LAST:event_actualizar2MouseClicked
 
     private void agregar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregar2MouseClicked
@@ -743,39 +840,36 @@ public class formulario1 extends javax.swing.JFrame {
     private void buscar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buscar2MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_buscar2MouseClicked
+    //Variable de tipo "file"
     File fichero;
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         int resultado;
 
         CargarFoto ventana = new CargarFoto();
-
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("JPG y PNG", "jpg", "png");
-
         ventana.jfchCargarfoto.setFileFilter(filtro);
-
         resultado = ventana.jfchCargarfoto.showOpenDialog(null);
-
         if (JFileChooser.APPROVE_OPTION == resultado) {
-
             fichero = ventana.jfchCargarfoto.getSelectedFile();
 
             try {
-
                 ImageIcon icon = new ImageIcon(fichero.toString());
-
                 ImageIcon icono = new ImageIcon(icon.getImage().getScaledInstance(foto.getWidth(), foto.getHeight(), Image.SCALE_DEFAULT));
-
                 foto.setIcon(icono);
-
             } catch (Exception ex) {
-
                 JOptionPane.showMessageDialog(null, "Error abriendo la imagen " + ex);
-
             }
-
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void comboSeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSeccionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboSeccionActionPerformed
+
+    private void comboProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboProyectoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboProyectoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -827,6 +921,8 @@ public class formulario1 extends javax.swing.JFrame {
     private javax.swing.JTextField codigo;
     private javax.swing.JTextField codigo1;
     private javax.swing.JTextField codigo2;
+    private javax.swing.JComboBox<String> comboProyecto;
+    private javax.swing.JComboBox<String> comboSeccion;
     private javax.swing.JTextField correo;
     private javax.swing.JTextField costo;
     private javax.swing.JLabel eliminar;
@@ -838,8 +934,6 @@ public class formulario1 extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
