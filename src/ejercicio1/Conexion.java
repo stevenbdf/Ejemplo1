@@ -19,8 +19,10 @@ public class Conexion {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             //importar java.sql.DriverManager
-            cn= DriverManager.getConnection("jdbc:sqlserver://DESKTOP-CAVE2O6\\SQLEXPRESS;databaseName=control_proyectos_2017;user=sa;password=123;");
-
+            //Conexion laptop
+           //cn= DriverManager.getConnection("jdbc:sqlserver://DESKTOP-CAVE2O6\\SQLEXPRESS;databaseName=control_proyectos_2017;user=sa;password=123;");
+            //Conexion PC
+             cn= DriverManager.getConnection("jdbc:sqlserver://Internet\\SQLEXPRESS;databaseName=control_proyectos_2017;user=sa;password=123;");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
